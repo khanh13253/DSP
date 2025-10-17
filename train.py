@@ -8,6 +8,7 @@ from transformers import (
 )
 import pandas as pd
 from datasets import Dataset
+import torch
 
 print("🔍 Đang tải dữ liệu...")
 
