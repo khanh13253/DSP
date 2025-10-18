@@ -13,8 +13,8 @@ import torch
 print("🔍 Đang tải dữ liệu...")
 
 # Đọc dữ liệu
-train_df = pd.read_csv("UIT-VSMEC/train.csv", encoding="utf-8-sig")
-valid_df = pd.read_csv("UIT-VSMEC/valid.csv", encoding="utf-8-sig")
+train_df = pd.read_csv("data/UIT_test_clean.csv", encoding="utf-8-sig")
+valid_df = pd.read_csv("data/UIT_valid_clean.csv", encoding="utf-8-sig")
 
 train_df["Emotion"] = train_df["Emotion"].str.capitalize()
 valid_df["Emotion"] = valid_df["Emotion"].str.capitalize()
@@ -25,19 +25,19 @@ train_df = train_df[train_df["Emotion"].isin(valid_emotions)]
 valid_df = valid_df[valid_df["Emotion"].isin(valid_emotions)]
 
 # Đổi tên cột
-train_df = train_df.rename(columns={"Sentence": "text", "Emotion": "label"})
-valid_df = valid_df.rename(columns={"Sentence": "text", "Emotion": "label"})
+train_df = train_df.rename(columns={"Clean_sentence": "Sentence", "Emotion": "Emotion"})
+valid_df = valid_df.rename(columns={"Clean_sentence": "Sentence", "Emotion": "Emotion"})
 
 # Chuẩn bị label
 label2id = {"Anger":0, "Disgust":1, "Fear":2, "Enjoyment":3, "Sadness":4, "Surprise":5, "Other":6}
 id2label = {v:k for k,v in label2id.items()}
 
-train_df["label"] = train_df["label"].map(label2id)
-valid_df["label"] = valid_df["label"].map(label2id)
+train_df["Emotion"] = train_df["Emotion"].map(label2id)
+valid_df["Emotion"] = valid_df["Emotion"].map(label2id)
 
 # Ép kiểu int
-train_df["label"] = train_df["label"].astype(int)
-valid_df["label"] = valid_df["label"].astype(int)
+train_df["Emotion"] = train_df["Emotion"].astype(int)
+valid_df["Emotion"] = valid_df["Emotion"].astype(int)
 
 # Chuyển thành Dataset
 train_dataset = Dataset.from_pandas(train_df)
@@ -53,7 +53,7 @@ if len(train_dataset) == 0:
 tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base")
 
 def tokenize_function(examples):
-    return tokenizer(examples["text"], truncation=True, padding=True, max_length=128)
+    return tokenizer(examples["Sentence"], truncation=True, padding=True, max_length=128)
 
 train_tokenized = train_dataset.map(tokenize_function, batched=True)
 valid_tokenized = valid_dataset.map(tokenize_function, batched=True)
