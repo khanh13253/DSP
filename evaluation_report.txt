@@ -1,0 +1,18 @@
+=== Evaluation Report ===
+Accuracy: 0.5916
+F1-score: 0.5686
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       Anger     0.6364    0.1750    0.2745        40
+     Disgust     0.5414    0.6439    0.5882       132
+   Enjoyment     0.6570    0.7047    0.6800       193
+        Fear     0.6857    0.5217    0.5926        46
+       Other     0.5032    0.6047    0.5493       129
+     Sadness     0.6250    0.6897    0.6557       116
+    Surprise     0.0000    0.0000    0.0000        37
+
+    accuracy                         0.5916       693
+   macro avg     0.5212    0.4771    0.4772       693
+weighted avg     0.5666    0.5916    0.5686       693
